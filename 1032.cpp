@@ -18,46 +18,41 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include <algorithm>
-#include <vector>
 using namespace std;
 
-class MyClass{
-    public:
-        int id;
-        char c;
-        int next;
-};
-int cmpId(MyClass i, MyClass j) { return i.id<j.id; }
-int cmpCH(MyClass i, MyClass j) { return i.c<j.c; }
 int main()
 {
     int st1, st2, n;
     cin >> st1>>st2>>n;
     int i;
-    vector<MyClass> da;
-    vector<int> tempList;
-    MyClass temp;
+    int da[ 100000 ]={0};
+    int id;
+
+    char t;
+    int next;
     for(i=0; i<n; i++)
     {
-        cin >> temp.id >> temp.c >> temp.next;
-        da.push_back(temp);
-        tempList.push_back(temp.id);
+        cin >> id >> t >> next;
+        da[ id ]=next;
     }
-
-    sort(da.begin(), da.end(), cmpId);
-    sort(tempList.begin(),tempList.end());
-    vector<MyClass>::iterator it;
-    vector<int>::iterator itInt;
-    string word1("");
-    while(it->next != -1)
+    int it = da[st1];
+    int w1[ 100000 ]={0};
+    w1[it] = 1;
+    while(it != -1){
+        w1[it] = 1;
+        it = da[it];
+    }
+    it = da[st2];
+    while( it != -1)
     {
-        word1+=it->c;
-        cout << it->c;
-        itInt = lower_bound(tempList.begin(), tempList.end(), it->next);
-        it = da.begin()+(itInt-tempList.begin());
-
+        if(w1[it] == 1)
+        {            
+            printf("%05d\n",it);
+            return 0;
+        }
+        it = da[it];
     }
-    cout << word1;
+    cout<<"-1" <<endl;
+    return 0;
 }
 
